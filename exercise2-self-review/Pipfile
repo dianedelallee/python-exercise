@@ -9,6 +9,8 @@ requests = "*"
 matplotlib = "*"
 numpy = "*"
 fpdf = "*"
+weasyprint = "*"
+"xhtml2pdf" = "*"
 
 [dev-packages]
 

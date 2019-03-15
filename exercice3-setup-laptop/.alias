@@ -1,0 +1,63 @@
+#####################
+#######  GIT  #######
+#####################
+alias gitlog='git log --date-order --all --graph --format="%C(green)%h%Creset %C(yellow)%an%Creset %C(blue bold)%ar%Creset %C(red bold)%d%Creset%s"'
+#desc gitlog: log with color
+
+#####################
+######## FUN ########
+#####################
+if [ -x /usr/games/cowsay -a -x /usr/games/fortune ]; then
+    fortune | cowsay
+fi
+
+function list_app() {
+    for line in "${(@f)"$(<$1)"}"
+    {
+        sub=#app
+        if [ "${line/$sub}" = "$line" ] ; then
+             echo '';
+            echo -e "${GREEN}##### ${BLUE}$line ${GREEN}#####${NC}";
+        else
+             name=$(echo ${line:4} | cut -d':' -f 1)  
+             desc=$(echo ${line:4} | cut -d':' -f 2| cut -d'-' -f 1)
+             link=$(echo ${line:4} | cut -d':' -f 2| cut -d'-' -f 2)
+
+             if [ $desc = $link ]; then
+                echo -e "${RED}$name${NC}:$desc" ;
+             else
+                echo -e "${RED}$name${NC}:$desc - ${PURPLE}$link ${NC}";
+             fi
+        fi
+    }
+}
+
+function list_all_app() {
+    echo -e "${GREEN}##### ${BLUE}MyApps ${GREEN}#####${NC}";
+    list_app ~/.app/.list_app;
+    echo '';
+
+}
+
+alias meteo='function _meteo(){ curl wttr.in/$1 ;};_meteo'
+#desc meteo: show the meteo in your city
+alias meteoline='ansiweather -l $1'
+#desc meteoline: meter in one line
+alias givemeapp=list_all_app;
+#desc givemeapp: list of my app sort by section
+alias getmusic='function _music(){ cd ~/Desktop/Music/Download; youtube-dl -o "%(title)s.%(ext)s" -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4" -x --audio-format mp3 --no-mtime --prefer-ffmpeg $1; cd -;};_music'
+#desc getmusic: download a mp3  from a youtube video to /Desktop/Music/Download
+alias getsound='function _sound(){ cd ~/Desktop/Music/Download; youtube-dl $1;cd -;};_sound'
+#desc getsound: download mp3 from soundcloud name of the artist or just url 
+alias welcome='fortune | cowsay | lolcat'
+#desc welcome: give you a beautiful daily tip
+alias wifiinfo='wifiname=$(airport -I | sed -e "s/^  *SSID: //p" -e d); echo "wifi name: $wifiname"; temp=$(echo $wifiname | cut -d'-' -f 1); wifipwd=$(security find-generic-password -wa $temp); echo "wifi password: $wifipwd"'
+#desc wifiinfo: give information about my wifi
+alias wifiinfo2='wifiname=$(airport -I | sed -e "s/^  *SSID: //p" -e d); echo "wifi name: $wifiname"; wifipwd=$(security find-generic-password -wa $wifiname); echo "wifi password: $wifipwd"'
+#desc wifiinfo2: give information about my wifi
+alias appleinfo='archey'
+#desc appleinfo: give information about computer
+alias notif='terminal-notifier -title "💾 from terminal" -message $1'
+#desc notif: send notification to computer
+alias filetree="ls -R | grep ':$' | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'" 
+#desc filtered: ls like a tree
